@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://s-g.nxtomo.hk/mcdonald-bubble/index-a.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mcdonald Bubble</title>
+	<script async="" src="./dfp_testing4_files/analytics.js"></script><script src="./dfp_testing4_files/jquery.min.js"></script>
+	<script src="./dfp_testing4_files/soundjs-0.6.2.min.js"></script>
+	<style type="text/css" media="screen">
+		*{padding:0;margin:0;}
+		html,body{width:320px;height:460px;overflow:hidden;}
+		#tracker{width:1px;height:1px;position: absolute;top:-10px;}
+		#bubble-outterWrapper{width:100%;height:100%;position: relative;}
+
+		#tutorial-description{width:100%;position: absolute;bottom:0;left:0;z-index:200;}
+		.bubble-bg{width:100%;position: absolute;top:0;left:0;}
+		.bubble-wrapper{width: 200%;position: absolute;left: -2%;top:0%;}
+		.bubble{width:12.3%;display:inline-block;}
+		.second-bg{width:100%;height:100%;position: absolute;top:0;left:0;background-image: url("http://s-g.nxtomo.hk/mcdonald-bubble/media/final-bg.jpg");}
+		.bg{width:100%;height:100%;}
+		.effect{width:20%;position: absolute;z-index:10000;}
+		
+		#tutorial{width: 25%;position: absolute;top: 165px;left: 118px;z-index: 1000;}
+		#tutorial-cheese{width:100%;}
+		#icon-hand{width: 100%;position: absolute;z-index: 100;top: 142%;left: 10%;}
+		#clickDiv{width:100%;height:100%;position: absolute;top:0;left:0;}
+	    #start{width:40%;position: absolute;top:0;bottom:25%;left:0;right:0;margin:auto;z-index:10000;opacity:0;}
+	</style>
+	<script type="text/javascript">
+		var timeClicked = 0 ;
+		var soundIDVar = "soundID";
+		var bubbleArray = [];
+		var canClick = false ;
+		var autoBreakFunction ; 
+		
+		function setupGA(argument) {
+		    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		    ga('create', 'UA-42070400-46', 'auto');
+		    ga('send', 'pageview');
+		}
+		
+		setupGA();
+		
+		function init(argument){
+			duplicateBubble();
+			setupBubble();
+			loadSound();
+			//if after 8s no interaction, will auto play 
+			autoBreakFunction = setTimeout(function(){
+				autoBreakBubble();
+				var td = document.getElementById('tutorial-description');
+				if(td)td.parentNode.removeChild(td);
+			}, 8000);
+			
+			iconHandAnimation(100);
+			//auto kill icon Hand after 4s
+			//autoBreakFunction = setTimeout(function(){
+			//	var el = document.getElementById('icon-hand');
+			//	if(el)el.parentNode.removeChild(el);
+			//}, 4000);
+		}
+		
+		function iconHandAnimation(target){
+			//hide middle bubble
+			$(".bubble").eq(17).css('visibility',"hidden");
+			
+			$("#icon-hand").animate({
+				top: "-=" + target + "%",
+			},750,function(){
+				setTimeout(function(){
+					spawnEffect($("#icon-hand").offset().left,$("#icon-hand").offset().top - 20);
+					//remove tutorial
+					var el = document.getElementById('tutorial');
+					if(el)el.parentNode.removeChild(el);
+					setTimeout(function(){
+						$("#start").css('opacity','1');	
+						//show middle bubble
+						$(".bubble").eq(17).css('visibility',"visible");
+						
+						$("#start").animate({
+							opacity: 0,
+						},1000,function(){
+							var start = document.getElementById('start');
+							if(start)start.parentNode.removeChild(start);
+						});
+					},700);
+					//game canClick after tutorial
+					canClick = true ;	
+				},1000)
+			})
+		}
+		
+		function duplicateBubble(){
+			var leftRight = 0 ;
+			var index = 1 ;
+			var offset = 9 ;
+			do{
+				$(".bubble-wrapper").eq($(".bubble-wrapper").length - 1).clone().appendTo("#bubble-outterWrapper");
+				$(".bubble-wrapper").eq($(".bubble-wrapper").length - 1).css('top',(83 - offset) * index + "px");
+				index++ ;
+			}while($(".bubble-wrapper").eq($(".bubble-wrapper").length - 1).position().top < $('body').height());
+		
+			$(".bubble-wrapper").each(function(index){
+				$(this).css('top',"-=57px");
+				if(index == 1){
+					$(this).css("margin-left","-13%");
+				}else if(index == 2){
+				}else if(index == 3){
+					$(this).css("margin-left","-13%");
+				}else if(index == 4){
+				}else if(index == 5){
+					$(this).css("margin-left","-13%");
+				}else if(index == 6){
+				}else if(index == 7){
+					$(this).css("margin-left","-13%");
+				}
+			})
+		}
+		
+		var autoBreakTimer = 250 ;
+		
+		function autoBreakBubble(argument){
+			if(bubbleArray.length <= 0)return ;	
+			if(clearTimeout(autoBreakFunction));
+			
+			var tempIndex = Math.round(Math.random()*bubbleArray.length) ;
+			if($(".bubble").eq(bubbleArray[tempIndex]).offset()  != null){
+				spawnEffect($(".bubble").eq(bubbleArray[tempIndex]).offset().left,$(".bubble").eq(bubbleArray[tempIndex]).offset().top);
+				$(".bubble").eq(bubbleArray[tempIndex]).css('visibility',"hidden");
+				bubbleArray.splice(tempIndex,1);	
+			}
+			
+			var tempIndex = Math.round(Math.random()*bubbleArray.length) ;
+			if($(".bubble").eq(bubbleArray[tempIndex]).offset()  != null){
+				spawnEffect($(".bubble").eq(bubbleArray[tempIndex]).offset().left,$(".bubble").eq(bubbleArray[tempIndex]).offset().top);
+				$(".bubble").eq(bubbleArray[tempIndex]).css('visibility',"hidden");
+				bubbleArray.splice(tempIndex,1);	
+			}
+			
+			//play sound
+			createjs.Sound.play(soundIDVar);
+			
+			if(bubbleArray.length > 0){
+				setTimeout(function(){autoBreakBubble();}, autoBreakTimer);
+			}else{
+				//finish auto break
+				$('.bubble-bg').css('opacity',"0");
+				setupClickTrack();
+				
+			}
+			
+			if(autoBreakTimer > 125){
+				autoBreakTimer -= 25 ;
+			}
+			
+			if(bubbleArray.length <= 10 && $('.bubble').css('opacity') > 0){
+				$('.bubble').css('opacity',"-=0.05");	
+				$('.bubble-bg').css('opacity',"-=0.05");
+			}
+			
+		}
+		
+		function spawnEffect(X,Y) {
+			var image = document.createElement("IMG");
+			image.alt = "Effect"
+			image.setAttribute('class', 'effect');
+			image.style.top = Y + 'px' ;
+			image.style.left = X + 'px' ;
+			image.src="http://s-g.nxtomo.hk/mcdonald-bubble/media/effect.png";
+			document.getElementById("bubble-outterWrapper").appendChild(image);
+		
+			$(image).animate({
+				opacity: 0,
+				top: "-=2%",
+			},1000,function(){
+				if(image)image.parentNode.removeChild(image);
+			})
+		}
+		
+		function setupClickTrack(argument) {
+			$("body").append("<div id='clickDiv' onclick='openWindow()'></div>");
+			//$("#bubble-outterWrapper").on("touchstart mousedown",function(e){
+			//	e.preventDefault();
+			//	window.open("http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=20&mc=click&pli=16843225&PluID=0&ord=%%CACHEBUSTER%%&mb=1&ck=1");
+			//})
+		}
+		
+		function openWindow(argument) {
+			ga('send', 'event', 'button', 'click', 'Landing Page Click');
+			window.open("http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=20&mc=click&pli=16843225&PluID=0&ord=%%CACHEBUSTER%%&mb=1&ck=1");
+		}
+		
+		
+		function setupBubble(){
+			$(".bubble").on("touchstart mousedown",function(e){
+				e.preventDefault();
+				if(!canClick)return ;
+				
+				if(e.type == "mousedown"){
+					var currentY = e.originalEvent.pageY ;
+					var currentX = e.originalEvent.pageX ;
+				}else if(e.type == "touchstart"){
+					var currentY = e.originalEvent.touches[0].pageY ;
+					var currentX = e.originalEvent.touches[0].pageX ;
+				}
+				
+				//spanw effect
+				spawnEffect(currentX,currentY)
+				
+				//kill icon hand
+				var el = document.getElementById('icon-hand');
+				if(el)el.parentNode.removeChild(el);
+				//kill tutorial description
+				var td = document.getElementById('tutorial-description');
+				if(td)td.parentNode.removeChild(td);
+				
+				if($(this).css('visibility') == "visible"){
+					$(this).css('visibility',"hidden");
+					ga('send', 'event', 'button', 'click', 'Bubble Click');
+					var tempIndex = bubbleArray.indexOf(parseInt($(this).attr('index'))) ;
+					bubbleArray.splice(tempIndex,1);
+					if(timeClicked < 5){
+						//spawn sound
+						createjs.Sound.play(soundIDVar);
+						timeClicked++;
+					}else{
+						canClick = false ;
+						autoBreakBubble();
+					}
+				}
+			})
+			//create bubble array for auto delete
+			$(".bubble").each(function(index){
+				$(this).attr("index",index);
+				bubbleArray.push(index)
+			})
+		}
+		function fadeInNextFrame(argument) {
+			$("#bubble-outterWrapper").css('display','none');
+			$("#second-bg").css('display','block');
+		}
+		function loadSound(){
+			createjs.Sound.registerSound("media/bubblePop.wav", soundIDVar);
+		}
+	</script>
+</head>
+<body id="index" onload="init()">
+	<img id="tracker" width="1" height="1" style="border:0" src="./dfp_testing4_files/adServer.bs">
+	<div id="bubble-outterWrapper">
+		
+		<div class="second-bg"></div>
+		<img class="bubble-bg" src="./dfp_testing4_files/bubble-bg.png" style="opacity: -0.05;">
+		
+		<div class="bubble-wrapper" style="top: -57px;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="0" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="1" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="2" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="3" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="4" style="visibility: hidden; opacity: 0.55;">
+		</div>
+		
+	<div class="bubble-wrapper" style="top: 17px; margin-left: -13%;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="5" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="6" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="7" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="8" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="9" style="visibility: hidden; opacity: 0.55;">
+		</div><div class="bubble-wrapper" style="top: 91px;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="10" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="11" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="12" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="13" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="14" style="visibility: hidden; opacity: 0.55;">
+		</div><div class="bubble-wrapper" style="top: 165px; margin-left: -13%;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="15" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="16" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="17" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="18" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="19" style="visibility: hidden; opacity: 0.55;">
+		</div><div class="bubble-wrapper" style="top: 239px;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="20" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="21" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="22" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="23" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="24" style="opacity: 0.55; visibility: hidden;">
+		</div><div class="bubble-wrapper" style="top: 313px; margin-left: -13%;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="25" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="26" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="27" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="28" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="29" style="visibility: hidden; opacity: 0.55;">
+		</div><div class="bubble-wrapper" style="top: 387px;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="30" style="opacity: 0.55; visibility: hidden;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="31" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="32" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="33" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="34" style="visibility: hidden; opacity: 0.55;">
+		</div><div class="bubble-wrapper" style="top: 461px; margin-left: -13%;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="35" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger1.png" index="36" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="37" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/burger2.png" index="38" style="visibility: hidden; opacity: 0.55;">
+			<img class="bubble" src="./dfp_testing4_files/cheese1.png" index="39" style="visibility: hidden; opacity: 0.55;">
+		</div></div>
+
+<div id="clickDiv" onclick="openWindow()"></div></body></html>
