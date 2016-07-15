@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="user-scalable=yes, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<title>Somersby</title>
+	<style type="text/css" media="screen">
+	html,body{width:100%;height:100%;position: relative;max-width:320px;max-height:548px;overflow:hidden;}
+	*{padding:0;margin:0;}
+	p{position: fixed;z-index: 10000;font-size: 80%;color: black;}
+	#error{top:15%;}
+	
+	img{
+		display: block;
+  		image-rendering: crisp-edges;
+	}
+	
+	input[type="text"] {
+		width: 52%;
+		height: 25px;
+		position: absolute;
+		bottom: 1%;
+		right: 0;
+		font-size: 100%;
+		display: block;
+		border: 3px solid #004c23;
+		border-radius: 6px;
+		margin: 2% 0%;
+	}
+	
+	.bg{width:100%;position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;}
+	.logo{width:20%;position: absolute;top:3%;left:5%;}
+	.grass-front{width:70%;position: absolute;bottom:0;left:0;}
+	.bottle-front{width:70%;position: absolute;bottom:-2%;right:0;}
+	.hashtag{width:40%;position: absolute;bottom:1%;right:0;}
+	.macaulogo{width:30%;position: absolute;bottom:4%;left:4%;}
+	#splash{display:block;}
+	.shakeicon-splash{height:12%;position: absolute;top:18%;left:0;right:0;margin:auto;}
+	.tree-splash{width: 98%;position: absolute;margin: auto;left: 0;right: 0;top: 14%;
+		-ms-transform-origin: 50% 90%; /* IE 9 */
+		-webkit-transform-origin: 50% 90%; /* Chrome, Safari, Opera */
+		-o-transform-origin: 50% 90%;
+		-ms-transform-origin: 50% 90%;
+		transform-origin: 50% 90%;
+	}
+	.content-splash{width: 90%;position: absolute;margin: auto;left: 0;right: 0;top: 25%;}
+	#game{display:none;}
+	.tree-game{width: 98%;position: absolute;margin: auto;left: 0;right: -1%;top: 15%;}
+	.leave{width:100%;position: absolute;margin: auto;left: 0;right: 0;top: 10%;
+		-moz-transform-origin: 50% 100%;
+		-webkit-transform-origin: 50% 100%;
+		-o-transform-origin: 50% 100%;
+		-ms-transform-origin: 50% 100%;
+		transform-origin: 50% 100%;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	.hand{width:45%;position: absolute;margin: auto;left: 0;right: 0;top: 30%;display:none;}
+	.leaveforhand{width: 85%;position: absolute;margin: auto;left: 0;right: -8%;top: 31%;}
+	.people-left{width:30%;position: absolute;top: 14%;left: 13%;
+		-moz-transform-origin: 100% 100%;
+		-webkit-transform-origin: 100% 100%;
+		-o-transform-origin: 100% 100%;
+		-ms-transform-origin: 100% 100%;
+		transform-origin: 100% 100%;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	.people-middle{width:30%;position: absolute;top: 10%;left: 0%;right: 5%;margin: 0 auto;
+		-moz-transform-origin: 50% 100%;
+		-webkit-transform-origin: 50% 100%;
+		-o-transform-origin: 50% 100%;
+		-ms-transform-origin: 50% 100%;
+		transform-origin: 50% 100%;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	.people-right{width:30%;position: absolute;top: 12%;right: 10%;
+		-moz-transform-origin: 0% 100%;
+		-webkit-transform-origin: 0% 100%;
+		-o-transform-origin: 0% 100%;
+		-ms-transform-origin: 0% 100%;
+		transform-origin: 0% 100%;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	.content-game{width:45%;position: absolute;top: 35%;left: 0%;right: 0%;margin: 0 auto;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	
+	.content-winbottle{width:95%;position: absolute;top: 47%;left: 0%;right: 0%;margin: 0 auto;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	
+	.content-winticket{width:72%;position: absolute;top: 45%;left: 0%;right: 0%;margin: 0 auto;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	
+	.content-lose1{width:70%;position: absolute;top: 35%;left: 0%;right: 0%;margin: 0 auto;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	
+	.content-lose2,.content-lose3{width:95%;position: absolute;top: 41%;left: 0%;right: 0%;margin: 0 auto;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	
+	#reedemBtnWrapper{width: 44%;position: absolute;top: 59%;left: 0%;right: 0%;margin: 0 auto;overflow:hidden;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+	}
+	.redeem-button{width:100%;}
+	.redeem-button-highlight{height:120%;position: absolute;top:-10%;left:-20%;}
+	#warningOuterWrapper{width: 47%;top: 58%;left: 0%;right: 0%;margin: 0 auto;position: absolute;display:none;}
+	#warningInnerWrapper{width: 100%;position: relative;overflow: hidden;}
+	.warning{width: 100%;top: 0%;left: 0%;right: 0%;margin: 0 auto;position: relative;}
+	.warning-highlight{height:120%;position: absolute;top:-10%;left:-20%;}
+	.warning-left{width:6%;position: absolute;top:25%;left :0;}
+	.warning-right{width:6%;position: absolute;top:25%;right :0;}
+	
+	#register{display:none;}
+	.tree-register{width: 98%;position: absolute;margin: auto;left: 0;right: -1%;top: 15%;}
+	.content-register{width: 80%;position: relative;padding-top: 31%;margin: 0 auto;}
+	.fillWrapper{width:95%;position: relative;padding-top: 8%;margin: 0 auto;}
+	#register-name,#register-phone,#register-id{width:45%;position: relative;}
+	#register-name-rule,#register-id-rule{width: 45%;position: absolute;top: 86%;left: 0;}
+	#alert-id,#alert-phone,#alert-name{width:65%;position: absolute;bottom:-20%;right:0;display:none;}
+	#alert-submit{left: 0;right: 0;margin: auto;width: 55%;position: relative;display:none;}
+	#spaceDummy{position: relative;width:100%;padding: 2% 0%;}
+	.checkboxWrapper{width: 92%;position: relative;padding-top: 5%;left: 3%;right: 0;margin: auto;}
+	.checkbox{width: 8%;position: relative;}
+	.checkbox-content1{width: 55%;position: absolute;top: 41%;padding-right: 37%;right: 0%;}
+	.checkbox-content2{width: 92%;position: absolute;top: 41%;padding-right: 0%;right: 0%;}
+	.tandc-dummy{width: 25%;position: absolute;top: 41%;right: 33%;}
+	.submit-button{position: relative;width: 50%;left: 0;right: 0;margin: auto;padding-top: 15%;}
+	#end{display:none;height:100%;}
+	.content-end{position: relative;height: 30%;left: 0;right: 0;margin: auto;padding-top: 44%;}
+	.fbShare{position: relative;left: 0;right: 0;margin: auto;padding-top: 4%;height: 6%;}
+	
+	@media screen and (max-height: 547px) {
+	    html,body{max-width:320px;max-height:460px;}
+		.bottle-front{width:60%;position: absolute;bottom:-1%;right:0;}
+		.tree-splash{width: 90%;top: 12%;}
+		.content-splash{width: 80%;}
+		.tree-game{width: 93%;top: 11%;}
+		.leaveforhand{width: 77%;position: absolute;margin: auto;left: 0;right: -8%;top: 32%;}
+		.content-lose1{top:32%;}
+		.content-lose2{top: 40%;width: 85%;}
+		.content-lose3{top:37%;}
+		.content-winbottle{top: 49%;}
+		.content-winticket{width: 63%;top: 47%;}
+		#reedemBtnWrapper{width: 40%;top: 61%;}
+		.tree-register{width: 93%;top: 11%;}
+		
+		.content-register{ width: 59%;padding-top: 27%;}
+		.fillWrapper{padding-top: 6%;}
+		.checkboxWrapper{width: 90%;padding-top: 2%;left: 1%;}
+		.submit-button{padding-top: 12%;}
+		#alert-submit{margin-top: -3%;}
+		.content-end{padding-top: 36%;}
+		
+		#warningOuterWrapper{width:40%;}
+	}
+	
+	#tandcOutterWrapper{position: absolute;width:100%;height:100%;top:0;display:none;background-color: rgba(0,0,0,0.65);}
+	#tandcInnerWrapper{position: relative;display:table-cell;vertical-align: middle;}
+	#tandcContainer{position: relative;width: 95%;height: 85%;margin: 0 auto;overflow-y: scroll;}
+	#tandc{width:100%;}
+	.popup-close{width: 5%;position: absolute;top: 9%;left: 4%;}
+	
+	#popupOutterWrapper{position: absolute;width:100%;height:100%;top:0;display:none;background-color: rgba(0,0,0,0.65);}
+	#popupInnerWrapper{position: relative;display:table-cell;vertical-align: middle;}
+	#popupContainer{position: relative;width: 95%;margin: 0 auto;}
+	#popup-registered{width:100%;}
+	</style>
+	<script type="text/javascript">
+		var code ;	//prize code
+		var page = 0 ;	//to determine prize
+		
+		var shakeTimes = 0 ;
+		var autoShakeTimes = 5 ;
+		var endSplash = 0; 
+		
+		var shakedLeft = false ;
+		var shakedRight = false ;
+		
+		var redeemHighlightAnimationTimes = 0 ;
+		var warningHighlightAnimationTimes = 0 ;
+		
+		var canSubmit = true ;
+		var errorVar = "" ;
+		
+		function init(argument){
+			errorVar += "init " ;
+			$("#error").text(errorVar)
+			try{
+				//setupGa();
+				autoRotateTree(0,2);
+				detectDeviceOrientation();
+			}catch(err){
+				errorVar += err ;
+				$("#error").text(errorVar);
+			}
+			errorVar += " init end" ;
+			$("#error").text(errorVar);
+		}
+		
+		function autoRotateTree(start,target) {
+			$({'index':start}).animate({
+			    index: target
+			},{
+				duration: 200,
+				step:function(now){
+					var deg = now ;
+					$(".tree-splash").eq(0).css({ 
+					        '-webkit-transform': 'rotate('+deg+'deg)',
+					        '-moz-transform': 'rotate('+deg+'deg)',
+					        '-o-transform': 'rotate('+deg+'deg)',
+					        '-ms-transform': 'rotate('+deg+'deg)',
+					        'transform': 'rotate('+deg+'deg)' 
+					});
+				},
+			    complete: function(){
+					if(endSplash == 1){
+						shakeTimes = 0 ;
+						$(".tree-splash").eq(0).css({ 
+						        '-webkit-transform': 'rotate('+0+'deg)',
+						        '-moz-transform': 'rotate('+0+'deg)',
+						        '-o-transform': 'rotate('+0+'deg)',
+						        '-ms-transform': 'rotate('+0+'deg)',
+						        'transform': 'rotate('+0+'deg)' 
+						});
+						endSplashRotateTree(0,3);
+						//setTimeout(function(){endSplash = 2}, 3000);
+						return;
+					}
+					shakeTimes ++
+					if(shakeTimes < autoShakeTimes){
+						autoRotateTree(target,target * -1);
+					}else if(shakeTimes == autoShakeTimes){
+						autoRotateTree(target,0);
+					}else{
+						shakeTimes = 0 ;
+						setTimeout(function(){autoRotateTree(0,2)}, 1000);
+					}
+			    }
+			});
+		}
+		
+		function endSplashRotateTree(start,target) {
+			$({'index':start}).animate({
+			    index: target
+			},{
+				duration: 150,
+				step:function(now){
+					var deg = now ;
+					$(".tree-splash").eq(0).css({ 
+					        '-webkit-transform': 'rotate('+deg+'deg)',
+					        '-moz-transform': 'rotate('+deg+'deg)',
+					        '-o-transform': 'rotate('+deg+'deg)',
+					        '-ms-transform': 'rotate('+deg+'deg)',
+					        'transform': 'rotate('+deg+'deg)' 
+					});
+				},
+			    complete: function(){
+					endSplashRotateTree(target,target * -1);
+			    }
+			});
+		}
+		
+
+		function handAnimation(argument){
+			$('.hand').eq(0).css('display','block');
+			$('.hand').eq(0).animate({
+			    top: "22%"
+			},{
+				duration: 350,
+				step:function(){
+				},
+			    complete: function(){
+					
+			    }
+			});
+			enlarge('.people-left');
+			enlarge('.leave');
+			enlarge('.people-right');
+			enlarge('.people-middle');
+			
+			if(page == 0){
+				//Game Lose
+				setTimeout(function(){enlarge('.content-lose1')}, 500);
+				setTimeout(function(){enlarge('.content-lose2')}, 600);
+				$(".macaulogo").css("display",'none');
+			}else if(page == 1){
+				//Game Win Bottle
+				setTimeout(function(){enlarge('.content-game')}, 500);
+				setTimeout(function(){enlarge('.content-winbottle')}, 600);
+				setTimeout(function(){enlarge('#reedemBtnWrapper')}, 700);
+				$(".macaulogo").css("display",'none');
+			}else if(page == 2){
+				//Game Win Ticket
+				setTimeout(function(){enlarge('.content-game')}, 500);
+				setTimeout(function(){enlarge('.content-winticket')}, 600);
+				setTimeout(function(){enlarge('#reedemBtnWrapper')}, 700);
+			}
+			
+		}
+		
+		function warningAnimation(start,target) {
+			$('.warning-highlight').css('left','-20%');
+			$('.warning-highlight').eq(0).animate({
+			    left: "120%",
+			},{
+				duration: 1000,
+				step:function(now){
+				},
+			    complete: function(){
+					warningHighlightAnimationTimes++
+					if(warningHighlightAnimationTimes == 2){
+						warningHighlightAnimationTimes = 0 ;
+						setTimeout(function(){warningAnimation();}, 1500);
+					}else{
+						warningAnimation();
+					}
+			    }
+			});
+			//warningAnimation(0,3);
+			//$({'index':start}).animate({
+			//    index: target
+			//},{
+			//	duration: 500,
+			//	step:function(now){
+			//		var scale = now ;
+			//		$('.warning-left').eq(0).css('left',now+"%");
+			//		$('.warning-right').eq(0).css('right',now+"%");
+			//	},
+			//    complete: function(){
+			//		warningAnimation(target,start); 
+			//    }
+			//});
+		}
+		//headEnlarge('.people-left') headEnlarge('.people-middle') headEnlarge('.people-right')
+		function enlarge(targetclass) {
+			$({'index':0}).animate({
+			    index: 1.05
+			},{
+				duration: 500,
+				step:function(now){
+					var scale = now ;
+					$(targetclass).eq(0).css({ 
+					        '-webkit-transform': 'scale('+scale+')',
+					        '-moz-transform': 'scale('+scale+')',
+					        '-o-transform': 'scale('+scale+')',
+					        '-ms-transform': 'scale('+scale+')',
+					        'transform': 'scale('+scale+')' 
+					});
+				},
+			    complete: function(){
+					$({'index':1.05}).animate({
+					    index: 1
+					},{
+						duration: 100,
+						step:function(now){
+							var scale = now ;
+							$(targetclass).eq(0).css({ 
+							        '-webkit-transform': 'scale('+scale+')',
+							        '-moz-transform': 'scale('+scale+')',
+							        '-o-transform': 'scale('+scale+')',
+							        '-ms-transform': 'scale('+scale+')',
+							        'transform': 'scale('+scale+')' 
+							});
+						},
+					    complete: function(){
+							if(targetclass == "#reedemBtnWrapper")reedeemHighlightAnimation();
+					    }
+					});
+			    }
+			});
+		}
+		
+		function reedeemHighlightAnimation() {
+			$('.redeem-button-highlight').css('left','-20%');
+			$('.redeem-button-highlight').eq(0).animate({
+			    left: "120%",
+			},{
+				duration: 1000,
+				step:function(now){
+				},
+			    complete: function(){
+					redeemHighlightAnimationTimes++
+					if(redeemHighlightAnimationTimes == 2){
+						redeemHighlightAnimationTimes = 0 ;
+						setTimeout(function(){reedeemHighlightAnimation();}, 1500);
+					}else{
+						reedeemHighlightAnimation();
+					}
+			    }
+			});
+		}
+		
+		function generateCodeFromServer(argument) {
+			var payload = {};
+			if(document.location.hostname=="localhost"){
+				var theLink='http://localhost:29080';
+			}else{
+				var theLink='https://somersby-s.appspot.com';
+			}
+			$.post(theLink+'/generator',payload,function(response){
+				if(window.console){console.log(response)}
+				if(response.status == "SUCCESS"){
+					if(response.page == "BEER")page = 1 ;
+					if(response.page == "TICKET")page = 2 ;
+					if(response.page == 1)page = 1 ;
+					if(response.page == 2)page = 2 ;
+					code = response.key ;
+					setTimeout(function(){ //wait 2s before go next page
+						endSplash = 2
+						$("#splash").css('display','none');
+						$("#game").css('display','block');
+						handAnimation();
+					}, 500);
+				}else{
+					setTimeout(function(){generateCodeFromServer()},1000);
+				}
+			}, "json");
+		}
+		
+		function checkInputCorrect(argument) {
+			if(window.console){console.log('checkInputCorrect')};
+			//reset all
+			$("#alert-id").css('display','none');
+			$("#alert-phone").css('display','none');
+			$("#alert-name").css('display','none');
+			$("#alert-submit").css('display','none');
+			
+			var incorrect = false ;
+			
+			if($('input[name="name"]').val().trim() == ""){
+				$('#alert-name').css('display',"block")
+				incorrect = true;
+			}else{
+				for(i = 0 ; i < $('input[name="name"]').val().length ; i++){
+					//if input is bigger than 0 or smaller than 9 and isn't space
+					if($('input[name="name"]').val()[i] >= 0 && $('input[name="name"]').val()[i] <= 9 && $('input[name="name"]').val()[i] != " " ){
+						incorrect = true;
+						$('#alert-name').css('display',"block");
+					}
+				}
+			}
+			
+			if($('input[name="phone"]').val().trim() == "" || $('input[name="phone"]').val().length != 8 || !($('input[name="phone"]').val().slice(0,1) == "5" || $('input[name="phone"]').val().slice(0,1) == "6" || $('input[name="phone"]').val().slice(0,1) == "8" || $('input[name="phone"]').val().slice(0,1) == "9") ){
+				$('#alert-phone').css('display',"block")
+				incorrect = true;
+			}else{
+				var value = $('input[name="phone"]').val()
+				for(i = 0; i < value.length; i++){
+					if(parseInt(value[i]) == "0")continue;
+					if(!parseInt(value[i])){
+						incorrect = true
+						$('#alert-phone').css('display',"block")
+					}
+					if((value[i]) >= 0 && (value[i]) <= 9){
+						
+					}else{
+						incorrect = true
+						$('#alert-phone').css('display',"block")
+					}
+				}
+			}
+			
+			if($('input[name="id"]').val().trim() == "" || $('input[name="id"]').val().length != 4){
+				$('#alert-id').css('display',"block");
+				incorrect = true;
+			}else{
+				for(i = 0 ; i < $('input[name="id"]').val().length ; i++){
+					if($('input[name="id"]').val()[i] >= 0 && $('input[name="id"]').val()[i] <= 9){
+						
+					}else{
+						incorrect = true;
+						$('#alert-id').css('display',"block");
+					}
+				}
+			}
+
+			$(".checkbox").each(function(){
+				if($(this).attr('src') == "media/checkbox.png"){
+					incorrect = true;
+					$('#alert-submit').css('display',"block");
+				}
+			})
+			
+			if(incorrect)return false ;
+			
+			return true;
+		}
+		
+		function submitToServer(){
+			if(!checkInputCorrect())return;
+			
+			if(!canSubmit)return;
+			canSubmit = false;
+			
+			ga('send', 'event', 'button', 'click', 'Submit');
+			
+			var payload = {};
+			payload['name'] = $('input[name="name"]').val();
+			payload['id'] = $('input[name="id"]').val();
+			payload['phone'] = $('input[name="phone"]').val();
+			payload['code'] = code;
+			if(page == 1){
+				payload['prize'] = "BEER";
+			}else{
+				payload['prize'] = "TICKET";
+			}
+			
+		
+			if(window.console){console.log(payload);}
+		
+			if(document.location.hostname=="localhost"){
+				var theLink='http://localhost:29080';
+			}else{
+				var theLink='https://somersby-s.appspot.com';
+			}
+			$.post(theLink+'/submit',payload,function(response){
+				canSubmit = true;
+				
+				if(response.status=="SUCCESS"){
+					if(window.console){console.log(response)}
+					$("#register").css('display','none');
+					$("#end").css('display','block');
+				}else if(response.status=="REGISTER-FAIL"){
+					if(window.console){console.log("Phone has been Registered")}
+					$("#popupOutterWrapper").css('display','table');
+				}else{
+					if(window.console){console.log(response)}
+				}
+			}, "json");
+				//}
+			//ga('send', 'event', 'button', 'click', 'Form Submit');
+		}
+		function reload(argument) {
+			location.reload();
+		}
+		
+		
+		function detectDeviceOrientation(argument) {
+			if(window.DeviceOrientationEvent){
+				window.addEventListener('deviceorientation', orientationHandler, false);
+			}
+		}
+		
+		function orientationHandler(eventData){
+			// beta is the front-to-back tilt in degrees, where front is positive
+			//var tiltFB = eventData.beta;
+			// alpha is the compass direction the device is facing in degrees
+			//var dir = eventData.alpha
+			
+			// gamma is the left-to-right tilt in degrees, where right is positive
+			var tiltLR = eventData.gamma;
+			
+			console.log(tiltLR);
+			if(endSplash == 0){
+				if(tiltLR < -10)shakedLeft = true ;
+				if(tiltLR > 10)shakedRight = true ;
+				if(shakedLeft && shakedRight){
+					splashEnd();
+					window.removeEventListener('deviceorientation', orientationHandler, false);
+				}
+			}
+		}
+		
+		function splashEnd(argument) {
+			endSplash = 1 ;
+			generateCodeFromServer();
+		}
+		
+		function clickCheckBox(self) {
+			if($(self).attr('src') == "media/checkbox.png"){
+				$(self).attr('src',"media/checkbox-selected.png");
+			}else{
+				$(self).attr('src',"media/checkbox.png");
+			}
+		}
+		
+		function gotoPreRegisterPage(argument){
+			gotoRegPage();
+			//$(".win").css('display','none');
+			//$(".content-lose1").eq(0).css({ 
+			//        '-webkit-transform': 'scale(1)',
+			//        '-moz-transform': 'scale(1)',
+			//        '-o-transform': 'scale(1)',
+			//        '-ms-transform': 'scale(1)',
+			//        'transform': 'scale(1)' 
+			//});
+			//$(".content-lose3").eq(0).css({ 
+			//        '-webkit-transform': 'scale(1)',
+			//        '-moz-transform': 'scale(1)',
+			//        '-o-transform': 'scale(1)',
+			//        '-ms-transform': 'scale(1)',
+			//        'transform': 'scale(1)' 
+			//});
+			//$("#warningOuterWrapper").css('display','block');
+			//warningAnimation();
+		}
+		
+		function gotoRegPage(argument){
+			$(".reg").css('display','none');
+			$("#game").css('display','none');
+			$("#register").css('display','block');
+			//enableTandC();
+		}
+		
+		function enableTandC(argument) {
+			$("#tandcOutterWrapper").css('display','table');
+		}
+		
+		function disablePopUp(self){
+			if($(self).attr("name") == "tnc"){
+				$(self).parent().parent().css('display','none');
+			}else{
+				$(self).parent().parent().parent().css('display','none');
+			}
+			//$("#tandcOutterWrapper").css('display','none');
+		}
+		
+		function openUrl(argument) {
+			ga('send', 'event', 'button', 'click', 'go to Landing');
+			window.open("https://www.facebook.com/SomersbyHk","_blank")
+		}
+		
+		function setupGa(argument) {
+		    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		    ga('create', 'UA-77054950-5', 'auto');
+		    ga('send', 'pageview');
+		}
+	</script>
+</head>
+<body id="test" onload="init()">
+	<!--
+	<p>Test 5</p>
+		<p id="error"></p>-->
+	
+	<img class="bg" src="media/bg.jpg" >
+	<img class="logo" src="media/logo.png" >
+	<img class="grass-front" src="media/grass-front.png" >
+	<img class="reg bottle-front" src="media/bottle-front.png" >
+	<!--<img class="reg hashtag" src="media/hashtag.png" >-->
+	<img class="reg macaulogo" src="media/macaulogo.png" >
+	<div id="splash">
+		<img class="tree-splash" src="media/tree-splash.png" >
+		<img class="content-splash" src="media/content-splash.png" >
+		<img class="shakeicon-splash" src="media/shakeicon-splash.png">
+	</div>
+	<div id="game">
+		<img class="tree-game" src="media/tree-game.png">
+		<img class="people-left" src="media/people-left.png">
+		<img class="people-middle" src="media/people-middle.png">
+		<img class="people-right" src="media/people-right.png">
+		<img class="win leave" src="media/leave.png">
+		<img class="hand" src="media/hand.png">
+		<img class="win leaveforhand" src="media/leaveforhand.png">
+		<img class="win content-game" src="media/content-game.png">
+		<img class="win content-winbottle" src="media/content-winbottle.png">
+		<img class="win content-winticket" src="media/content-winticket.png">
+		<img class="content-lose1" src="media/content-lose1.png">
+		<img class="content-lose2" src="media/content-lose2.png">
+		<img class="content-lose3" src="media/content-lose3.png">
+		<div class="win" id="reedemBtnWrapper">
+			<img class="redeem-button" src="media/redeem-button.png" onclick="gotoPreRegisterPage()">
+			<img class="redeem-button-highlight" src="media/redeem-button-highlight.png">
+		</div>
+		<div id="warningOuterWrapper">
+			<div id="warningInnerWrapper">
+				<img class="warning" src="media/warning.png" onclick="gotoRegPage()">
+				<img class="warning-highlight" src="media/redeem-button-highlight.png">
+				<!--
+				<img class="warning-left" src="media/warning-left.png">
+				<img class="warning-right" src="media/warning-right.png">
+				-->
+			</div>
+		</div>
+	</div>
+	
+	<div id="register">
+		<img class="tree-register"src="media/tree-game.png">
+		<img class="content-register"src="media/content-register.png">
+		<div class="fillWrapper">
+			<img id="register-name"src="media/register-name.png">
+			<input type="text" placeholder="Chan Tai Man"  class="text_input" name="name" >
+			<img id="register-name-rule"src="media/register-name-rule.png">
+			<img class="alert" id="alert-name" src="media/alert-name.png">
+		</div>
+		
+		<div class="fillWrapper">
+			<img id="register-phone"src="media/register-phone.png">
+			<input type="text" class="text_input" name="phone" maxlength="8" pattern="[0-9]{8}" >
+			<img class="alert" id="alert-phone" src="media/alert-phone.png">
+		</div>
+		<div class="fillWrapper">
+			<img id="register-id"src="media/register-id.png">
+			 <input type="text" placeholder="1234"  class="text_input" name="id" maxlength="4" pattern="[0-9]{4}" >
+			 <img id="register-id-rule"src="media/register-id-rule.png">
+			 <img class="alert" id="alert-id" src="media/alert-id.png">
+		</div>
+		<div id="spaceDummy">
+			
+		</div>
+		<div class="checkboxWrapper">
+			<img class="checkbox"src="media/checkbox.png" onclick="clickCheckBox(this)">
+			<img class="checkbox-content1"src="media/checkbox-content1.png">
+		</div>
+		<div class="checkboxWrapper">
+			<img class="checkbox"src="media/checkbox.png" onclick="clickCheckBox(this)">
+			<img class="checkbox-content2"src="media/checkbox-content2.png">
+			<img class="tandc-dummy"src="media/tandc-dummy.png" onclick="enableTandC()">
+		</div>
+		<img class="submit-button"src="media/submit-button.png" onclick="submitToServer()">
+		<img id="alert-submit" src="media/alert-submit.png">
+	</div>
+	
+	<div id="end">
+		<img class="tree-register"src="media/tree-game.png">
+		<img class="content-end"src="media/content-end.png">
+		<img class="fbShare"src="media/fbShare.png" onclick="openUrl()">
+	</div>
+	<div id="tandcOutterWrapper">
+		<div id="tandcInnerWrapper">
+			<div id="tandcContainer">
+				<img id="tandc" src="media/tandc.png">
+			</div>
+			<img class="popup-close" src="media/tandc-close.png" onclick="disablePopUp(this)" name="tnc" > 
+		</div>
+	</div>
+	
+	<div id="popupOutterWrapper" >
+		<div id="popupInnerWrapper">
+			<div id="popupContainer">
+				<img id="popup-registered" src="media/popup-registered.png">
+				<img class="popup-close" src="media/tandc-close.png" onclick="disablePopUp(this)">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
