@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Test redirect</title>
+    </head>
+
+<script type="text/javascript">
+	
+function downloaded(){  
+            var ua = navigator.userAgent.toLowerCase();  
+            if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+                //alert("點擊右上角“在瀏覽器中打開”，進入下載頁面");  
+                // window.open("http://aiacdnprod.4d.com.hk/AIA-Connect-1.apk")
+                location.href="http://aiacdnprod.4d.com.hk/AIA-Connect-1.apk#mp.weixin.qq.com"  
+            } else {  
+                location.href="http://aiacdnprod.4d.com.hk/AIA-Connect-1.apk"  
+            }  
+        }   
+
+	downloaded();
+</script>
+
+    <body>
+        <h1>Redirecting.....</h1>
+        <p>
+        </p>
+    </body>
+</html>
