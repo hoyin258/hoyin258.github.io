@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<body onload="redirect();"> 
+
+<p id="message"></p>
+</body>
+</html> 
+
+<script type="text/javascript">
+var iosRedirect = "https://itunes.apple.com/us/app/aia-connect-%E5%8F%8B%E8%81%AF%E7%B9%AB/id1292514758?ls=1&mt=8";
+var androidRedirect = "http://aiacdnprod.4d.com.hk/AIA-Connect-1.apk";
+var isMobile = {
+    Android: function() {
+        return /Android/i.test(navigator.userAgent);
+    },
+    iOS: function() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.iOS());
+    }
+};
+
+
+function redirect () {
+    var model ="";
+    if (isMobile.iOS()) {
+    	model = "We are redirecting you to App Store now......";
+    } else {
+    	model = "We are redirecting you to download site now......";
+    }
+    document.getElementById("message").innerHTML = model;
+    if (isMobile.iOS()) {
+        window.location.href = iosRedirect;
+    } else if (isMobile.Android()) {
+        window.location.href = androidRedirect;
+    }
+
+    showAlertForWeChat();
+}
+
+function showAlertForWeChat(){  
+            var ua = navigator.userAgent.toLowerCase();  
+            if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+                alert("點擊右上角，然後“在瀏覽器中開啟”，進入下載頁面");  
+            }  
+        }   
+</script>
